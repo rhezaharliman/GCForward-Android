@@ -45,7 +45,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        api-levet: [26, 31]
+        api-level: [26, 31]
         target: [default]
     steps:
       - name: Checkout branch
