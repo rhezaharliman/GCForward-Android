@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GCForward</string>
+    <string name="btn_search">SEARCH</string>
+    <string name="hint_username">GitHub Username</string>
 </resources>
