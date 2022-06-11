@@ -1,0 +1,110 @@
+# https://github.com/marketplace/actions/android-emulator-runner
+# https://qiita.com/uhooi/items/70ffe67ba65d33189db2
+
+name: android-ci
+on:
+  pull_request:
+    branches:
+      - 'imp/**'
+      - 'fix/**'
+    paths-ignore:
+      - README.md
+      - LICENSE
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+jobs:
+  lint:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Inspect lint
+        run: bash ./gradlew lint
+      - name: Results
+        uses: yutailang0119/action-android-lint@v1
+        with:
+          xml_path: '**/build/reports/lint-results-*.xml'
+      - name: Upload result
+        uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: results
+          path: |
+            **/build/reports/lint-results-*.html
+            **/build/reports/lint-results-*.xml
+          if-no-files-found: error
+          retention-days: 30
+
+  test:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        api-levet: [26, 31]
+        target: [default]
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Set JDK
+        uses: actions/setup-java@v2
+        with:
+            java-version: 1.8
+      # gradle cache thanks to https://github.com/actions/cache/blob/master/examples.md#java---gradle
+      - name: Prepare gradle cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+      - name: Run unit test
+        run: bash ./gradlew test --stacktrace
+      - name: Run instrumentation test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: default
+          arch: x86_64
+          script: ./gradlew connectedCheck
+
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Set JDK
+        uses: actions/setup-java@v2
+        with:
+            java-version: 1.8
+      # gradle cache thanks to https://github.com/actions/cache/blob/master/examples.md#java---gradle
+      - name: Prepare gradle cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Compile
+        run: bash ./gradlew assembleDebug
+  
