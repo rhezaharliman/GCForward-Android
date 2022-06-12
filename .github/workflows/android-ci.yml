@@ -85,6 +85,12 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
+      - name: Append key properties file
+        env:
+          API_GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
+        run: |
+          echo API_GITHUB_TOKEN="$API_GITHUB_TOKEN" >> key.properties
+        shell: bash
       - name: Run unit test
         run: ./gradlew test --stacktrace
       - name: Run instrumentation test
