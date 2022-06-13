@@ -4,4 +4,7 @@
     <string name="hint_username">GitHub Username</string>
     <string name="image_description">Profile avatar</string>
     <string name="txt_username_default">Username</string>
+
+    <string name="search_error_empty_result">Result not found</string>
+    <string name="search_error_query_empty_or_same">Query string is empty or same as the last one</string>
 </resources>
