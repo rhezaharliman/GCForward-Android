@@ -25,6 +25,11 @@ class RetrofitInterceptor: Interceptor {
     companion object {
         const val ACCEPT = "application/vnd.github.v3+json"
         // to make the token at key.properties file is readable, build is necessary
-        const val TOKEN = "token " + BuildConfig.API_GITHUB_TOKEN
+        // MEMO: "const" cannot be used since appending string is not compile time constant that
+        // is a must for "const".
+        // To solve this, remove the "const" keyword and put JvmField annotation
+        // https://stackoverflow.com/a/46482788
+        @JvmField
+        val TOKEN = "token " + BuildConfig.API_GITHUB_TOKEN
     }
 }
