@@ -30,6 +30,12 @@ jobs:
         with:
             java-version: 11
             distribution: 'adopt'
+      - name: Append key properties file
+        env:
+          API_GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
+        run: |
+          echo API_GITHUB_TOKEN="$API_GITHUB_TOKEN" >> key.properties
+        shell: bash
       - name: Inspect lint
         run: ./gradlew lint
       - name: Results
@@ -119,6 +125,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Append key properties file
+        env:
+          API_GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
+        run: |
+          echo API_GITHUB_TOKEN="$API_GITHUB_TOKEN" >> key.properties
+        shell: bash
       - name: Compile
         run: ./gradlew assembleDebug
   
