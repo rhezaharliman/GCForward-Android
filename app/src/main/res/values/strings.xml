@@ -4,6 +4,13 @@
     <string name="hint_username">GitHub Username</string>
     <string name="image_description">Profile avatar</string>
     <string name="txt_username_default">Username</string>
+    <string name="txt_following">Following</string>
+    <string name="txt_followers">Followers</string>
+    <string name="txt_number_default">0</string>
+    <string name="txt_repository_name_default">Repository</string>
+    <string name="txt_repository_desc_default">Description</string>
+    <string name="txt_repository_lang_default">Language</string>
+    <string name="txt_repository_stars_default">Stars</string>
 
     <string name="search_error_empty_result">Result not found</string>
     <string name="search_error_query_empty_or_same">Query string is empty or same as the last one</string>
