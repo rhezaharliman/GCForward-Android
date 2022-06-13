@@ -3,6 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def apiKeyFile = rootProject.file("key.properties")
+def apiKeys = new Properties()
+apiKeys.load(new FileInputStream(apiKeyFile))
+
 android {
     compileSdk 32
 
@@ -14,6 +18,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_GITHUB_TOKEN", apiKeys['API_GITHUB_TOKEN'])
     }
 
     buildTypes {
@@ -31,20 +37,31 @@ android {
     }
 }
 
-def kotlinVersion = "1.8.0"
-def appCompatVersion = "1.4.2"
-def materialVersion = "1.6.1"
-def constraintLayoutVersion = "2.1.4"
-def junitVersion = "4.13.2"
-def junitExtVersion = "1.1.3"
-def espressoVersion = "3.4.0"
-
 dependencies {
+    def appCompatVersion = "1.4.2"
+    def constraintLayoutVersion = "2.1.4"
+    def kotlinVersion = "1.8.0"
+    def lifecycleVersion = "2.2.0"
+    def materialVersion = "1.6.1"
+    def retrofitVersion = "2.9.0"
+    def loggingInterceptorVersion = "4.5.0"
+    def picassoVersion = "2.8"
+    def coroutinesVersion = "1.5.2"
+    def junitVersion = "4.13.2"
+    def junitExtVersion = "1.1.3"
+    def espressoVersion = "3.4.0"
 
-    implementation "androidx.core:core-ktx:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.core:core-ktx:$kotlinVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$junitExtVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
