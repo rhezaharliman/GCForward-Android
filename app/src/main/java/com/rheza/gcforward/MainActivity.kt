@@ -1,5 +1,6 @@
 package com.rheza.gcforward
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,10 +11,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.rheza.gcforward.model.User
+import com.rheza.gcforward.singleton.DataHolder
 import com.rheza.gcforward.view.UserListAdapter
 import com.rheza.gcforward.viewmodel.SearchUserViewModelImpl
 
-class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
 
     private lateinit var mRootLayout: ConstraintLayout
     private lateinit var mEditTxtQuery: EditText
@@ -57,7 +60,7 @@ class MainActivity: AppCompatActivity() {
             mUserListAdapter.submitList(it)
         }
 
-        mUserListAdapter = UserListAdapter()
+        mUserListAdapter = UserListAdapter(this)
         mListUser.adapter = mUserListAdapter
     }
 
@@ -75,6 +78,16 @@ class MainActivity: AppCompatActivity() {
         mProgressBar.visibility = View.VISIBLE
         mLastSearchQuery = mEditTxtQuery.text.toString()
         mSearchUserViewModelImpl.searchUser(mLastSearchQuery)
+    }
+
+    override fun onItemClick(user: User) {
+        // Set clicked user object to DataHolder
+        val dataHolder: DataHolder = DataHolder.getInstance()
+        dataHolder.setUser(user)
+
+        // Run Profile Activity
+        val intent = Intent(this, ProfileActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

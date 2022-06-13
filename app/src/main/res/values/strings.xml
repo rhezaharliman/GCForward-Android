@@ -13,5 +13,10 @@
     <string name="txt_repository_stars_default">Stars</string>
 
     <string name="search_error_empty_result">Result not found</string>
-    <string name="search_error_query_empty_or_same">Query string is empty or same as the last one</string>
+    <string name="search_error_query_empty_or_same">
+        Query string is empty or same as the last one
+    </string>
+
+    <string name="profile_error_wrong_state"></string>
+
 </resources>
