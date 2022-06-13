@@ -15,7 +15,10 @@ import com.squareup.picasso.Picasso
 /**
  * Adapter for List user fragment
  */
-class UserListAdapter: ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback()) {
+class UserListAdapter(itemClickListener: OnItemClickListener):
+    ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback()) {
+
+    val mItemClickListener: OnItemClickListener = itemClickListener
 
     // Initialize the ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -34,6 +37,16 @@ class UserListAdapter: ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback()
 
         // set user name to TextView
         holder.txtUser.text = user.login
+
+        // set listener to ViewHolder
+        holder.itemView.setOnClickListener { mItemClickListener.onItemClick(user) }
+    }
+
+    /**
+     * Create Item click listener interface
+     */
+    interface OnItemClickListener {
+        fun onItemClick(user: User)
     }
 
     /**

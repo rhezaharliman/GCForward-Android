@@ -1,6 +1,7 @@
 package com.rheza.gcforward.model
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * User object to handle user json data from GitHub response
@@ -62,4 +63,4 @@ data class User (
 
     @field:Json(name = "site_admin")
     val siteAdmin: Boolean = false
-)
+): Serializable
