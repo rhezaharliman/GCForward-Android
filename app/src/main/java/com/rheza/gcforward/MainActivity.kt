@@ -59,7 +59,8 @@ class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
             mListUser.visibility = View.VISIBLE
 
             // Submit the user list to adapter to update the adapter content
-            mUserListAdapter.submitList(it)
+            val userList: List<User> = it
+            mUserListAdapter.submitList(userList)
         }
 
         mUserListAdapter = UserListAdapter(this)
