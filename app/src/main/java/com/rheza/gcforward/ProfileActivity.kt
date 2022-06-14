@@ -1,9 +1,12 @@
 package com.rheza.gcforward
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -112,7 +115,25 @@ class ProfileActivity : AppCompatActivity(), RepositoryListAdapter.OnItemClickLi
 
     // item click when the repository list is clicked
     override fun onItemClick(repository: RepositoryInfo) {
-        Snackbar.make(mRootLayout, "${repository.name} CLICKED", Snackbar.LENGTH_SHORT).show()
-        // TODO: implement CustomTab
+        // Small probability but add protection if html url is not available just in case
+        if (repository.html_url == null) {
+            Snackbar.make(mRootLayout, "${repository.name} URL not available",
+                Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        // Parse string to uri
+        val url: Uri = Uri.parse(repository.html_url)
+
+        // create custom tab intent to launch custom tab browser
+        val customTabsIntent =
+            CustomTabsIntent.Builder()
+                .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
+                .build()
+
+        // Since launchUrl will call startActivity() from outside activity,
+        // FLAG_ACTIVITY_NEW_TASK need to be defined
+        customTabsIntent.intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        customTabsIntent.launchUrl(applicationContext, url)
     }
 }
