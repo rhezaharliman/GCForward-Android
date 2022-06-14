@@ -22,7 +22,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mTxtUsername: TextView
     private lateinit var mTxtBio: TextView
     private lateinit var mTxtFollowingNum: TextView
-    private lateinit var mtxtFollowerNum: TextView
+    private lateinit var mTxtFollowerNum: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class ProfileActivity : AppCompatActivity() {
         mTxtUsername = findViewById(R.id.txt_profile_username)
         mTxtBio = findViewById(R.id.txt_profile_bio)
         mTxtFollowingNum = findViewById(R.id.txt_profile_following_number)
-        mtxtFollowerNum = findViewById(R.id.txt_profile_followers_number)
+        mTxtFollowerNum = findViewById(R.id.txt_profile_followers_number)
 
         // Initialize ProfileDetailViewModel
         mProfileDetailViewModel =
@@ -70,7 +70,7 @@ class ProfileActivity : AppCompatActivity() {
             mTxtUsername.text = user.login
             mTxtBio.text = user.bio
             mTxtFollowingNum.text = user.following.toString()
-            mtxtFollowerNum.text = user.followers.toString()
+            mTxtFollowerNum.text = user.followers.toString()
         }
 
         // Fetch user detail.

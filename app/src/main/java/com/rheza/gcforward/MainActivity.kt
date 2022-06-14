@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.rheza.gcforward.model.User
 import com.rheza.gcforward.singleton.DataHolder
 import com.rheza.gcforward.view.UserListAdapter
+import com.rheza.gcforward.viewmodel.SearchUserViewModel
 import com.rheza.gcforward.viewmodel.SearchUserViewModelImpl
 
 class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
@@ -26,7 +27,7 @@ class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
     private lateinit var mUserListAdapter: UserListAdapter
     private var mLastSearchQuery: String = ""
 
-    private lateinit var mSearchUserViewModelImpl: SearchUserViewModelImpl
+    private lateinit var mSearchUserViewModelImpl: SearchUserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +41,12 @@ class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
         mListUser = findViewById(R.id.list_user)
 
         // Initialize SearchUsersViewModel
-        mSearchUserViewModelImpl = ViewModelProvider(this).get(SearchUserViewModelImpl::class.java)
+        mSearchUserViewModelImpl =
+            ViewModelProvider(this).get(SearchUserViewModelImpl::class.java)
 
 
         // Listen to the changes of List of user in SearchUserViewModel
-        mSearchUserViewModelImpl.users.observe(this) {
+        (mSearchUserViewModelImpl as SearchUserViewModelImpl).users.observe(this) {
             mProgressBar.visibility = View.GONE
 
             // Show error message and return when empty result is returned

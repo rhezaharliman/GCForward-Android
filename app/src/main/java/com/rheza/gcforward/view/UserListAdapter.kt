@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 class UserListAdapter(itemClickListener: OnItemClickListener):
     ListAdapter<User, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    val mItemClickListener: OnItemClickListener = itemClickListener
+    private val mItemClickListener: OnItemClickListener = itemClickListener
 
     // Initialize the ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
