@@ -1,5 +1,6 @@
 package com.rheza.gcforward.helper.api
 
+import com.rheza.gcforward.model.RepositoryInfo
 import com.rheza.gcforward.model.SearchResult
 import com.rheza.gcforward.model.User
 import retrofit2.Response
@@ -27,4 +28,12 @@ interface GithubApiHelper {
     suspend fun getUserDetailFromLoginId(
         @Path("login") loginId: String
     ): Response<User>
+
+    /**
+     * Request to api.github/users/{login}/repos to get repository data
+     */
+    @GET("users/{login}/repos")
+    suspend fun getReposFromLoginId(
+        @Path("login") loginId:String
+    ): Response<List<RepositoryInfo>>
 }

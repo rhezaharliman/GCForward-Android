@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.rheza.gcforward.model.RepositoryInfo
 import com.rheza.gcforward.model.User
 import com.rheza.gcforward.repository.ProfileDetailRepositoryImpl
 
@@ -20,6 +21,10 @@ class ProfileDetailViewModelImpl: ViewModel(), ProfileDetailViewModel {
          *   caching the search result to locally will make it better for same query.
          */
         ProfileDetailRepositoryImpl.getUserDetailFromLoginId(it)
+    }
+
+    val repositoryInfo: LiveData<List<RepositoryInfo>> = Transformations.switchMap(mLoginId) {
+        ProfileDetailRepositoryImpl.getReposFromLoginId(it)
     }
 
     /**
