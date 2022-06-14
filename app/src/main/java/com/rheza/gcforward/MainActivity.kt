@@ -1,5 +1,6 @@
 package com.rheza.gcforward
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,10 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.rheza.gcforward.model.User
+import com.rheza.gcforward.singleton.DataHolder
 import com.rheza.gcforward.view.UserListAdapter
+import com.rheza.gcforward.viewmodel.SearchUserViewModel
 import com.rheza.gcforward.viewmodel.SearchUserViewModelImpl
 
-class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity(), UserListAdapter.OnItemClickListener {
 
     private lateinit var mRootLayout: ConstraintLayout
     private lateinit var mEditTxtQuery: EditText
@@ -23,7 +27,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var mUserListAdapter: UserListAdapter
     private var mLastSearchQuery: String = ""
 
-    private lateinit var mSearchUserViewModelImpl: SearchUserViewModelImpl
+    private lateinit var mSearchUserViewModelImpl: SearchUserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +41,12 @@ class MainActivity: AppCompatActivity() {
         mListUser = findViewById(R.id.list_user)
 
         // Initialize SearchUsersViewModel
-        mSearchUserViewModelImpl = ViewModelProvider(this).get(SearchUserViewModelImpl::class.java)
+        mSearchUserViewModelImpl =
+            ViewModelProvider(this).get(SearchUserViewModelImpl::class.java)
 
 
         // Listen to the changes of List of user in SearchUserViewModel
-        mSearchUserViewModelImpl.users.observe(this) {
+        (mSearchUserViewModelImpl as SearchUserViewModelImpl).users.observe(this) {
             mProgressBar.visibility = View.GONE
 
             // Show error message and return when empty result is returned
@@ -54,10 +59,11 @@ class MainActivity: AppCompatActivity() {
             mListUser.visibility = View.VISIBLE
 
             // Submit the user list to adapter to update the adapter content
-            mUserListAdapter.submitList(it)
+            val userList: List<User> = it
+            mUserListAdapter.submitList(userList)
         }
 
-        mUserListAdapter = UserListAdapter()
+        mUserListAdapter = UserListAdapter(this)
         mListUser.adapter = mUserListAdapter
     }
 
@@ -75,6 +81,16 @@ class MainActivity: AppCompatActivity() {
         mProgressBar.visibility = View.VISIBLE
         mLastSearchQuery = mEditTxtQuery.text.toString()
         mSearchUserViewModelImpl.searchUser(mLastSearchQuery)
+    }
+
+    override fun onItemClick(user: User) {
+        // Set clicked user object to DataHolder
+        val dataHolder: DataHolder = DataHolder.getInstance()
+        dataHolder.setUser(user)
+
+        // Run Profile Activity
+        val intent = Intent(this, ProfileActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

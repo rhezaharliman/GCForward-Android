@@ -61,5 +61,48 @@ data class User (
     val eventsUrl: String? = null,
 
     @field:Json(name = "site_admin")
-    val siteAdmin: Boolean = false
+    val siteAdmin: Boolean = false,
+
+    /* Below is only available from accessing profile url */
+    @field:Json(name = "name")
+    val name: String? = null,
+
+    @field:Json(name = "company")
+    val company: String? = null,
+
+    @field:Json(name = "blog")
+    val blog: String? = null,
+
+    @field:Json(name = "location")
+    val location: String? = null,
+
+    @field:Json(name = "email")
+    val email: String? = null,
+
+    @field:Json(name = "hireable")
+    val hireable: String? = null,
+
+    @field:Json(name = "bio")
+    val bio: String? = null,
+
+    @field:Json(name = "twitter_username")
+    val twitterUsername: String? = null,
+
+    @field:Json(name = "public_repos")
+    val publicRepos: String? = null,
+
+    @field:Json(name = "public_gists")
+    val publicGists: String? = null,
+
+    @field:Json(name = "followers")
+    val followers: Long = 0,
+
+    @field:Json(name = "following")
+    val following: Long = 0,
+
+    @field:Json(name = "created_at")
+    val createdAt: String? = null,
+
+    @field:Json(name = "updated_at")
+    val updatedAt: String? = null
 )
