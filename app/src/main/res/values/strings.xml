@@ -4,6 +4,8 @@
     <string name="hint_username">GitHub Username</string>
     <string name="image_description">Profile avatar</string>
     <string name="txt_username_default">Username</string>
+    <string name="txt_name_default">User</string>
+    <string name="txt_bio_default">Bio</string>
     <string name="txt_following">Following</string>
     <string name="txt_followers">Followers</string>
     <string name="txt_number_default">0</string>
@@ -17,6 +19,6 @@
         Query string is empty or same as the last one
     </string>
 
-    <string name="profile_error_wrong_state"></string>
+    <string name="profile_error_wrong_state">Profile not found</string>
 
 </resources>

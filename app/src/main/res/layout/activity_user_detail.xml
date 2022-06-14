@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/img_profile"
+        android:id="@+id/img_profile_profile"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:contentDescription="@string/image_description"
@@ -18,22 +18,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_username"
+        android:id="@+id/txt_profile_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:textSize="32sp"
+        android:text="@string/txt_name_default"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/img_profile_profile"/>
+
+    <TextView
+        android:id="@+id/txt_profile_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="24sp"
         android:text="@string/txt_username_default"
         android:breakStrategy="simple"
-        app:layout_constraintTop_toBottomOf="@id/img_profile"/>
+        app:layout_constraintTop_toBottomOf="@id/txt_profile_name"/>
+
+    <TextView
+        android:id="@+id/txt_profile_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="24sp"
+        android:text="@string/txt_username_default"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/txt_profile_username"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txt_username"
+        app:layout_constraintTop_toBottomOf="@id/txt_profile_bio"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -51,7 +75,7 @@
                 android:text="@string/txt_following"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/txt_following_number"
+                android:id="@+id/txt_profile_following_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -78,7 +102,7 @@
                 android:breakStrategy="simple"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/txt_followers_number"
+                android:id="@+id/txt_profile_followers_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -90,7 +114,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_repository"
+        android:id="@+id/list_profile_repository"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
